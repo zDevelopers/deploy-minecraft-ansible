@@ -1,0 +1,25 @@
+minecraft_version: 1.16.5
+
+motd: KTZ
+max_players: 64
+
+map_zip: ""
+
+plugins:
+  - type: spigot
+    name: Chunky
+    spigot_id: 81534
+  - type: spigot
+    name: ProtocolLib
+    spigot_id: 1997
+  - type: maven_build
+    name: SafePortals
+    repo: https://github.com/AmauryCarrade/SafePortals.git
+    branch: master
+  - type: maven_build
+    name: QuartzSurvivalGames
+    repo: https://github.com/zDevelopers/UHPlugin.git
+    branch: modular
+  - type: link
+    name: WorldEdit
+    link: https://ci.enginehub.org/repository/download/bt10/17722:id/worldedit-bukkit-7.3.0-SNAPSHOT-dist.jar?branch=master&guest=1

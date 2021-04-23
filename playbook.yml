@@ -1,0 +1,28 @@
+---
+
+- hosts: localhost
+
+  vars:
+    # Root directory where everything will be stored.
+    root: /home/amaury/.tmp/dmc/
+
+    # Where the actual Minecraft server will be installed on the machine.
+    server: "{{ root }}/server"
+
+    # Where things that need to be build (e.g. plugins) will be.
+    build: "{{ root }}/build"
+
+  vars_prompt:
+  - name: game
+    prompt: Game to install (any filename in vars/games without extension)
+    private: no
+  - name: dns
+    prompt: DNS entry to create (server will be available at <dns>.games.zcraft.fr)
+    private: no
+
+  pre_tasks:
+    - name: Load vars from selected {{ game }}
+      include_vars: "vars/games/{{ game }}.yml"
+
+  roles:
+    - gameserver

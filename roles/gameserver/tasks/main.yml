@@ -1,0 +1,3 @@
+- name: Checks if everything is ok
+  ansible.builtin.debug:
+    msg: Creating game {{ game }} using Minecraft {{ minecraft_version }}
