@@ -1,6 +1,11 @@
 instance:
+  # Must be a valid OVH region, see what region have the flavor you want in the link below
   region: GRA1
+
+  # Must be a valid instance flavor, see: https://www.ovhcloud.com/fr/public-cloud/prices/
   flavor: s1-2
+
+  # You _have to_ use a Debian based image, else it won't work
   image: Debian 10
 
 minecraft_version: 1.16.5
@@ -13,6 +18,7 @@ enable_command_block: true
 difficulty: hard
 pvp: true
 
+# Not supported yet
 map_zip: ""
 
 plugins:
