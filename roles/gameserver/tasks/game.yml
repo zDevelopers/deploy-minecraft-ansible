@@ -72,3 +72,12 @@
   loop: "{{ ops }}"
   async: 30
   poll: 0
+  when: ops is defined
+
+- name: Execute startup commands
+  shell: sleep 20 && ./broadcast_command.sh {{ item }}
+  loop: "{{ startup_commands }}"
+  async: 30
+  poll: 0
+  when: startup_commands is defined
+
