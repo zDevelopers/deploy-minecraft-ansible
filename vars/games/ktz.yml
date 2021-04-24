@@ -22,6 +22,9 @@ plugins:
   - type: spigot
     name: ProtocolLib
     spigot_id: 1997
+  - type: spigot
+    name: Ping
+    spigot_id: 72327
   - type: maven
     name: SafePortals
     repo: https://github.com/AmauryCarrade/SafePortals.git
