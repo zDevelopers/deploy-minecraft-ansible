@@ -42,8 +42,17 @@ plugins:
   - type: link
     name: WorldEdit
     link: https://ci.enginehub.org/repository/download/bt10/17722:id/worldedit-bukkit-7.3.0-SNAPSHOT-dist.jar?branch=master&guest=1
+  - type: link
+    name: dynmap
+    link: https://github.com/webbukkit/dynmap/releases/download/v3.1-beta-7/Dynmap-3.1-beta7-spigot.jar
 
 ops:
   - AmauryPi
   - Jenjeur
   - DadaE4
+
+startup_commands:
+  - chunky radius 1000
+  - chunky center 0 0
+  - chunky start
+  - dynmap fullrender world
