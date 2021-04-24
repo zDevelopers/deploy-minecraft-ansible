@@ -1,3 +1,0 @@
-[submodule "collections/ansible_collections/synthesio/ovh"]
-	path = collections/ansible_collections/synthesio/ovh
-	url = https://github.com/synthesio/infra-ovh-ansible-module
