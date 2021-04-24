@@ -3,13 +3,13 @@ instance:
   region: GRA1
 
   # Must be a valid instance flavor, see: https://www.ovhcloud.com/fr/public-cloud/prices/
-  flavor: s1-2
+  flavor: b2-15  # 11.69 cts per hour
 
   # You _have to_ use a Debian based image, else it won't work
   image: Debian 10
 
 minecraft_version: 1.16.5
-minecraft_ram: 1G
+minecraft_ram: 12G
 
 motd: §6KTZ
 max_players: 64
