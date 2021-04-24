@@ -56,13 +56,19 @@
     dest: "{{ root }}/"
     mode: u=rwx,g=rx,o=rx
   with_fileglob:
-    - "templates/*.sh"
+    - templates/*.sh
 
 - name: Install time-broadcast cron
   cron:
     name: Time broadcast
     special_time: hourly
-    job: "cd && ./ ./broadcast_time.sh > {{ root }}/log.log 2>&1"
+    job: cd && ./ ./broadcast_time.sh > {{ root }}/log.log 2>&1
 
 - name: Start server
-  shell: "./boot_server.sh server {{ minecraft_ram }}"
+  shell: ./boot_server.sh server {{ minecraft_ram }}
+
+- name: Add server operators
+  shell: sleep 20 && ./broadcast_command.sh op {{ item }}
+  loop: "{{ ops }}"
+  async: 30
+  poll: 0
