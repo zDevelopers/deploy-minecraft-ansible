@@ -56,3 +56,4 @@ startup_commands:
   - chunky center 0 0
   - chunky start
   - dynmap fullrender world
+  - whitelist on
