@@ -1,0 +1,68 @@
+- name: Download latest Paper for {{ minecraft_version }}
+  get_url:
+    url: "https://papermc.io/api/v1/paper/{{ minecraft_version }}/latest/download"
+    dest: "{{ server }}/paper.jar"
+    http_agent: "{{ http_agent }}"
+
+- name: Accept EULA
+  copy:
+    dest: "{{ server }}/eula.txt"
+    content: |
+      # Accepted by deploy-minecraft ansible playbook
+      eula=true
+
+- name: Generate server properties
+  template:
+    src: "server.properties.j2"
+    dest: "{{ server }}/server.properties"
+
+- name: Install plugins from Spigot
+  include_role:
+    name: install-plugin-spigot
+  vars:
+    plugin_name: "{{ plugin.name }}"
+    spigot_id: "{{ plugin.spigot_id }}"
+  loop: "{{ plugins }}"
+  when: plugin.type == "spigot"
+  loop_control:
+    loop_var: plugin
+
+- name: Install plugins from direct link
+  include_role:
+    name: install-plugin-link
+  vars:
+    plugin_name: "{{ plugin.name }}"
+    plugin_link: "{{ plugin.link }}"
+  loop: "{{ plugins }}"
+  when: plugin.type == "link"
+  loop_control:
+    loop_var: plugin
+
+- name: Install plugins from Maven build
+  include_role:
+    name: install-plugin-maven
+  vars:
+    plugin_name: "{{ plugin.name }}"
+    plugin_repo: "{{ plugin.repo }}"
+    plugin_branch: "{{ plugin.branch }}"
+  loop: "{{ plugins }}"
+  when: plugin.type == "maven"
+  loop_control:
+    loop_var: plugin
+
+- name: Install management scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ root }}/"
+    mode: u=rwx,g=rx,o=rx
+  with_fileglob:
+    - "templates/*.sh"
+
+- name: Install time-broadcast cron
+  cron:
+    name: Time broadcast
+    special_time: hourly
+    job: "cd && ./ ./broadcast_time.sh > {{ root }}/log.log 2>&1"
+
+- name: Start server
+  shell: "./boot_server.sh server {{ minecraft_ram }}"

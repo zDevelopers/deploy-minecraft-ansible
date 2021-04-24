@@ -1,3 +1,13 @@
-- name: Checks if everything is ok
-  ansible.builtin.debug:
-    msg: Creating game {{ game }} using Minecraft {{ minecraft_version }}
+- name: Install server
+  import_tasks: system.yml
+
+- name: Install game server
+  import_tasks: game.yml
+
+- name: Display SSH connection
+  debug:
+    msg: "Connect to console with ssh {{ ansible_user_id }}@{{ ansible_default_ipv4.address }} or {{ ansible_user_id }}@{{ dns }}.games.zcraft.fr, then run screen -r zcraft_server"
+
+- name: Display Minecraft server connection
+  debug:
+    msg: "Minecraft server is available at {{ dns }}.games.zcraft.fr or {{ ansible_default_ipv4.address }} on {{ minecraft_version }}"

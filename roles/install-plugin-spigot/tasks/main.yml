@@ -1,0 +1,5 @@
+- name: Download plugin {{ plugin_name }} from Spiget
+  get_url:
+    url: https://api.spiget.org/v2/resources/{{ spigot_id }}/download
+    dest: "{{ server }}/plugins/{{ plugin_name | replace(' ', '') }}.jar"
+    http_agent: "{{ http_agent }}"

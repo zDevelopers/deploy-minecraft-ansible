@@ -1,7 +1,17 @@
-minecraft_version: 1.16.5
+instance:
+  region: GRA1
+  flavor: s1-2
+  image: Debian 10
 
-motd: KTZ
+minecraft_version: 1.16.5
+minecraft_ram: 1G
+
+motd: §6KTZ
 max_players: 64
+gamemode: survival
+enable_command_block: true
+difficulty: hard
+pvp: true
 
 map_zip: ""
 
@@ -12,14 +22,19 @@ plugins:
   - type: spigot
     name: ProtocolLib
     spigot_id: 1997
-  - type: maven_build
+  - type: maven
     name: SafePortals
     repo: https://github.com/AmauryCarrade/SafePortals.git
     branch: master
-  - type: maven_build
+  - type: maven
     name: QuartzSurvivalGames
     repo: https://github.com/zDevelopers/UHPlugin.git
     branch: modular
   - type: link
     name: WorldEdit
     link: https://ci.enginehub.org/repository/download/bt10/17722:id/worldedit-bukkit-7.3.0-SNAPSHOT-dist.jar?branch=master&guest=1
+
+ops:
+  - AmauryPi
+  - Jenjeur
+  - DadaE4

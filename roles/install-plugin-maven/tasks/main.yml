@@ -1,0 +1,31 @@
+- name: Clone {{ plugin_name }} git repository
+  git:
+    repo: "{{ plugin_repo }}"
+    dest: "{{ build }}/{{ plugin_name }}"
+    depth: 1
+    version: "{{ plugin_branch }}"
+
+- name: Build {{ plugin_name }} with Maven
+  command:
+    cmd: mvn clean install
+    chdir: "{{ build }}/{{ plugin_name }}"
+
+- name: Only keep artifacts we want
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_fileglob: "{{ build }}/{{ plugin_name }}/target/original*.jar"
+
+- name: List artifacts
+  find:
+    paths: "{{ build }}/{{ plugin_name }}/target/"
+    patterns: "*.jar"
+    use_regex: no
+    recurse: no
+  register: artifacts
+
+- name: Copy JAR to plugin folder
+  copy:
+    src: "{{ artifacts.files[0].path }}"
+    dest: "{{ server }}/plugins/{{ plugin_name }}.jar"
+    remote_src: yes

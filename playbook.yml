@@ -2,9 +2,26 @@
 
 - hosts: localhost
 
+  vars_prompt:
+    - name: game
+      prompt: Game to install (any filename in vars/games without extension)
+      private: no
+    - name: dns
+      prompt: DNS entry to create (server will be available at <dns>.games.zcraft.fr)
+      private: no
+
+  pre_tasks:
+    - name: Load vars from selected game ({{ game }})
+      include_vars: "vars/games/{{ game }}.yml"
+
+  roles:
+    - instance
+
+- hosts: ovh  # dynamically created by the instance role
+
   vars:
     # Root directory where everything will be stored.
-    root: /home/amaury/.tmp/dmc/
+    root: "{{ ansible_user_dir }}"
 
     # Where the actual Minecraft server will be installed on the machine.
     server: "{{ root }}/server"
@@ -12,16 +29,20 @@
     # Where things that need to be build (e.g. plugins) will be.
     build: "{{ root }}/build"
 
-  vars_prompt:
-  - name: game
-    prompt: Game to install (any filename in vars/games without extension)
-    private: no
-  - name: dns
-    prompt: DNS entry to create (server will be available at <dns>.games.zcraft.fr)
-    private: no
+    # User agent for web requests
+    http_agent: "ansible-httpget/{{ ansible_version.string }} deploy-minecraft/1.0 (compatible; +https://amaury.carrade.eu/contact)"
+
+  # We wait for the host to be reachable before gathering facts
+  gather_facts: no
 
   pre_tasks:
-    - name: Load vars from selected {{ game }}
+    - name: Waiting for DNS propagation…
+      wait_for_connection:
+
+    - name: Gather facts
+      setup:
+
+    - name: Load vars from selected game ({{ game }})
       include_vars: "vars/games/{{ game }}.yml"
 
   roles:

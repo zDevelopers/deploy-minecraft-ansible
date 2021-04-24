@@ -1,0 +1,13 @@
+# Minecraft server properties
+
+{% if seed is defined %}level-seed={{ seed }}{% endif %}
+gamemode={{ gamemode | default('survival') }}
+enable-command-block={{ enable_command_block | default('survival') }}
+level-name={{ level_name | default('world') }}
+motd={{ motd | replace('§', '\\u00A7') }}
+pvp={{ pvp | default('true') }}
+generate-structures=true
+difficulty={{ difficulty | default('easy') }}
+max-players={{ max_players | default('20') }}
+
+spawn-protection=0

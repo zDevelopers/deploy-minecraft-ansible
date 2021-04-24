@@ -1,0 +1,29 @@
+- name: Install Python OVH
+  pip:
+    name: ovh
+  delegate_to: localhost
+
+- name: Create {{ instance.flavor }}-{{ instance.region}} instance
+  script: scripts/create_instance.py
+  args:
+    executable: python3
+  environment:
+    GAME_NAME: "{{ game }}"
+    OVH_ENDPOINT: "{{ ovh.endpoint }}"
+    OVH_SERVICE_NAME: "{{ ovh.service_name }}"
+    OVH_ZONE_NAME: "{{ ovh.zone_name }}"
+    OVH_APPLICATION_KEY: "{{ ovh.application_key }}"
+    OVH_APPLICATION_SECRET: "{{ ovh.application_secret }}"
+    OVH_CONSUMER_KEY: "{{ ovh.consumer_key }}"
+    OVH_SSH_KEY_ID: "{{ ovh.ssh_key_id }}"
+    OVH_INSTANCE_REGION: "{{ instance.region }}"
+    OVH_INSTANCE_FLAVOR: "{{ instance.flavor }}"
+    OVH_INSTANCE_IMAGE: "{{ instance.image }}"
+    OVH_INSTANCE_DNS: "{{ dns }}"
+  delegate_to: localhost
+  register: ovh_instance
+
+- name: Add the new instance to Ansible inventory
+  add_host:
+    name: "{{ ovh_instance.stdout }}"
+    groups: ovh

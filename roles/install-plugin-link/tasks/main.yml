@@ -1,0 +1,5 @@
+- name: Download plugin {{ plugin_name }} from direct link
+  get_url:
+    url: "{{ plugin_link }}"
+    dest: "{{ server }}/plugins/{{ plugin_name | replace(' ', '') }}.jar"
+    http_agent: "{{ http_agent }}"

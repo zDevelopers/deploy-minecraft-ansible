@@ -1,0 +1,30 @@
+- name: Create folders
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ server }}"
+    - "{{ server }}/plugins"
+    - "{{ build }}"
+
+- name: Install packages
+  apt:
+    name:
+      # Tools & monitoring
+      - htop
+      - tree
+
+      # Plugins build
+      - git
+      - maven
+
+      # Time broadcast scripts
+      - jq
+
+      # To host/boot the Paper server
+      - screen
+      - default-jre
+  become: true
+
+- name: Install micro
+  shell: curl https://getmic.ro | bash
